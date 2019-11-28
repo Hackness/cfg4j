@@ -1,5 +1,6 @@
 package com.hackness.cfg4j.xml;
 
+import com.hackness.cfg4j.core.FileType;
 import com.hackness.cfg4j.core.parse.AbstractListHandler;
 import org.jdom2.Element;
 
@@ -12,7 +13,12 @@ import java.util.List;
  */
 public class XmlListHandler extends AbstractListHandler<Element> {
     @Override
-    protected List<String> parseList(Element node) {
+    public FileType configType() {
+        return FileType.XML;
+    }
+
+    @Override
+    protected List<String> cast(Element node) {
         List<String> list = new ArrayList<>();
         node.getChildren("set").forEach(set -> list.add(XmlUtil.getNonNullAttribute(set, "value")));
         return list;

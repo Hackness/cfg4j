@@ -1,7 +1,6 @@
 package com.hackness.cfg4j.xml;
 
 import com.hackness.cfg4j.core.anno.Cfg;
-import com.hackness.cfg4j.core.cast.ITypeCaster;
 import com.hackness.cfg4j.core.cast.TypeManager;
 import com.hackness.cfg4j.core.parse0.AbstractParser;
 import lombok.extern.slf4j.Slf4j;
@@ -29,7 +28,6 @@ public class XmlParser extends AbstractParser<Element> {
         return saxBuilder.build(file).getRootElement();
     }
 
-    @SuppressWarnings("unchecked")
     @Override
     public void parse(Element root, Object owner) {
         Map<String, Element> configMap = root.getChildren()
@@ -37,7 +35,7 @@ public class XmlParser extends AbstractParser<Element> {
                 .collect(Collectors.toMap(e -> XmlUtil.getNonNullAttribute(e, "name"), e -> e));
         Class ownerClass = getOwnerType(owner);
         List<Field> generationList = new ArrayList<>(); // TODO: config generation
-        Stream.of(ownerClass.getFields())
+        Stream.of(ownerClass.getDeclaredFields())
                 .filter(f -> f.isAnnotationPresent(Cfg.class))
                 .forEach(field -> {
                     //TODO: field preprocess with checks
@@ -48,9 +46,14 @@ public class XmlParser extends AbstractParser<Element> {
                         generationList.add(field);
                         return;
                     }
-                    ITypeCaster<Element, Object> caster = (ITypeCaster<Element, Object>) TypeManager.getInstance()
-                            .getTypeCaster(e.getClass(), e.getName());
-                    Object castedValue = caster.deserialize(e);
+                    Object castedValue;
+                    try {
+                        castedValue = TypeManager.getInstance().deserialize(e, field.getGenericType(), e.getName());
+                    } catch (Exception ex) {
+                        log.warn("An error occurred while parsing value '{}', field: {}, owner: {}",
+                                e, field, owner);
+                        return;
+                    }
                     if (!field.isAccessible())
                         field.setAccessible(true);
                     try {
