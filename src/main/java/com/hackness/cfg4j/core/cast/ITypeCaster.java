@@ -20,7 +20,7 @@ public interface ITypeCaster<E, O> {
     /**
      * CURRENTLY NOT IMPLEMENTED
      */
-    E serialize(O obj);
+    E serialize(O obj, Type type);
 
     /**
      *

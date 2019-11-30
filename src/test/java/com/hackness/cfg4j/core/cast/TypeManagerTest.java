@@ -22,7 +22,7 @@ public class TypeManagerTest {
         }
 
         @Override
-        public String serialize(Integer obj) {
+        public String serialize(Integer obj, Type type) {
             return Integer.toString(obj);
         }
 
@@ -61,35 +61,17 @@ public class TypeManagerTest {
         }
 
         @Override
-        public String serialize(List obj) {
-            return null; //TODO
-        }
-
-        private List<String> splitData(String element) {
-            final char startSeq = '[';
-            final char endSeq = ']';
-            final char delim = ';';
-            int start = element.indexOf(startSeq);
-            int end = element.lastIndexOf(endSeq);
-            String listContent = element.substring(start + 1, end);
-            int level = 0;
-            List<String> splitData = new ArrayList<>();
+        public String serialize(List obj, Type type) {
             StringBuilder sb = new StringBuilder();
-            for (int i = 0; i < listContent.length(); i++) {
-                char sym = listContent.charAt(i);
-                if (sym == startSeq)
-                    level++;
-                else if (sym == endSeq)
-                    level--;
-                else if (sym == delim && level == 0) {
-                    splitData.add(sb.toString());
-                    sb.setLength(0);
-                    continue;
-                }
-                sb.append(sym);
-            }
-            splitData.add(sb.toString());
-            return splitData;
+            sb.append("[");
+            Type castType = Util.getGenericTypes(type)[0];
+            obj.forEach(el -> {
+                sb.append(TypeManager.getInstance().serialize(el, castType, getElementType())).append(";");
+            });
+            if (obj.size() > 0)
+                sb.setLength(sb.length() - 1); // cut last delim
+            sb.append("]");
+            return sb.toString();
         }
 
         @Override
@@ -129,12 +111,39 @@ public class TypeManagerTest {
         public List emptyObjectInstance() {
             return new ArrayList();
         }
+
+        private List<String> splitData(String element) {
+            final char startSeq = '[';
+            final char endSeq = ']';
+            final char delim = ';';
+            int start = element.indexOf(startSeq);
+            int end = element.lastIndexOf(endSeq);
+            String listContent = element.substring(start + 1, end);
+            int level = 0;
+            List<String> splitData = new ArrayList<>();
+            StringBuilder sb = new StringBuilder();
+            for (int i = 0; i < listContent.length(); i++) {
+                char sym = listContent.charAt(i);
+                if (sym == startSeq)
+                    level++;
+                else if (sym == endSeq)
+                    level--;
+                else if (sym == delim && level == 0) {
+                    splitData.add(sb.toString());
+                    sb.setLength(0);
+                    continue;
+                }
+                sb.append(sym);
+            }
+            splitData.add(sb.toString());
+            return splitData;
+        }
     }
 
     public List<Integer> list;
 
     @Test
-    public void strListCast() throws Exception {
+    public void strListDeserialize() throws Exception {
         TypeManager typeManager = TypeManager.getInstance();
         typeManager.registerTypeCaster(new StringListCaster());
         typeManager.registerTypeCaster(new StringIntCaster());
@@ -147,7 +156,7 @@ public class TypeManagerTest {
     public List<List<Integer>> listInList;
 
     @Test
-    public void strListInListCast() throws Exception {
+    public void strListInListDeserialize() throws Exception {
         TypeManager typeManager = TypeManager.getInstance();
         typeManager.registerTypeCaster(new StringListCaster());
         typeManager.registerTypeCaster(new StringIntCaster());
@@ -185,5 +194,39 @@ public class TypeManagerTest {
         rawField.set(this, rawVal);
         Assert.assertTrue(objInt == 23);
         Assert.assertEquals(rawInt, 23);
+    }
+
+    public List<Integer> serList;
+    @Test
+    public void strListSerialize() throws Exception {
+        TypeManager typeManager = TypeManager.getInstance();
+        typeManager.registerTypeCaster(new StringListCaster());
+        typeManager.registerTypeCaster(new StringIntCaster());
+        serList = new ArrayList<>();
+        serList.add(1);
+        serList.add(2);
+        serList.add(3);
+        String serialized = typeManager
+                .serialize(serList, getClass().getField("serList").getGenericType(), String.class);
+        Assert.assertEquals(serialized, "[1;2;3]");
+    }
+
+    public List<List<Integer>> serListInList;
+    @Test
+    public void strListInListSerialize() throws Exception {
+        TypeManager typeManager = TypeManager.getInstance();
+        typeManager.registerTypeCaster(new StringListCaster());
+        typeManager.registerTypeCaster(new StringIntCaster());
+        serListInList = new ArrayList<>();
+        for (int i = 0; i < 3; i++) {
+            List<Integer> list = new ArrayList<>();
+            for (int j = 0; j < 3; j++) {
+                list.add(i * 3 + j);
+            }
+            serListInList.add(list);
+        }
+        String serialized = typeManager
+                .serialize(serListInList, getClass().getField("serListInList").getGenericType(), String.class);
+        Assert.assertEquals(serialized, "[[0;1;2];[3;4;5];[6;7;8]]");
     }
 }
