@@ -1,6 +1,6 @@
 package com.hackness.cfg4j.core.model.file;
 
-import com.hackness.cfg4j.core.parse0.IParser;
+import com.hackness.cfg4j.core.parse.IParser;
 
 import java.io.File;
 import java.util.List;

@@ -1,4 +1,4 @@
-package com.hackness.cfg4j.core.parse0;
+package com.hackness.cfg4j.core.parse;
 
 import java.io.File;
 

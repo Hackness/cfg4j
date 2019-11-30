@@ -2,7 +2,7 @@ package com.hackness.cfg4j.xml;
 
 import com.hackness.cfg4j.core.anno.Cfg;
 import com.hackness.cfg4j.core.cast.TypeManager;
-import com.hackness.cfg4j.core.parse0.AbstractParser;
+import com.hackness.cfg4j.core.parse.AbstractParser;
 import lombok.extern.slf4j.Slf4j;
 import org.jdom2.Element;
 import org.jdom2.input.SAXBuilder;

@@ -1,7 +1,7 @@
 package com.hackness.cfg4j.xml;
 
 import com.hackness.cfg4j.core.model.file.IFileHandler;
-import com.hackness.cfg4j.core.parse0.IParser;
+import com.hackness.cfg4j.core.parse.IParser;
 import org.jdom2.Element;
 
 import java.io.File;
