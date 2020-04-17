@@ -15,6 +15,8 @@ import java.util.List;
  * Date: 27-Nov-19 08:00
  */
 public class TypeManagerTest {
+    private static TypeManager typeManager = new TypeManager();
+
     private static class StringIntCaster implements ITypeCaster<String, Integer> {
         @Override
         public String serializedDescriptor() {
@@ -66,7 +68,7 @@ public class TypeManagerTest {
             sb.append("[");
             Type castType = Util.getGenericTypes(type)[0];
             obj.forEach(el -> {
-                sb.append(TypeManager.getInstance().serialize(el, castType, getElementType())).append(";");
+                sb.append(typeManager.serialize(el, castType, getElementType())).append(";");
             });
             if (obj.size() > 0)
                 sb.setLength(sb.length() - 1); // cut last delim
@@ -91,7 +93,7 @@ public class TypeManagerTest {
             else
                 out = emptyObjectInstance();
             for (String data : splitData) {
-                Object castedValue = TypeManager.getInstance().deserialize(data, castType);
+                Object castedValue = typeManager.deserialize(data, castType);
                 out.add(castedValue);
             }
             return out;
@@ -144,7 +146,6 @@ public class TypeManagerTest {
 
     @Test
     public void strListDeserialize() throws Exception {
-        TypeManager typeManager = TypeManager.getInstance();
         typeManager.registerTypeCaster(new StringListCaster());
         typeManager.registerTypeCaster(new StringIntCaster());
         String intList = "[23;14;22;15]";
@@ -157,7 +158,6 @@ public class TypeManagerTest {
 
     @Test
     public void strListInListDeserialize() throws Exception {
-        TypeManager typeManager = TypeManager.getInstance();
         typeManager.registerTypeCaster(new StringListCaster());
         typeManager.registerTypeCaster(new StringIntCaster());
         String intList = "[[1;2;3];[4;5;6];[7;8;9]]";
@@ -168,7 +168,6 @@ public class TypeManagerTest {
 
     @Test
     public void strListFieldWrite() throws Exception {
-        TypeManager typeManager = TypeManager.getInstance();
         typeManager.registerTypeCaster(new StringListCaster());
         typeManager.registerTypeCaster(new StringIntCaster());
         String intList = "[23;14;22;15]";
@@ -182,7 +181,6 @@ public class TypeManagerTest {
     public int rawInt = 0;
     @Test
     public void objAndRawFieldWrite() throws Exception {
-        TypeManager typeManager = TypeManager.getInstance();
         typeManager.registerTypeCaster(new StringIntCaster());
         typeManager.registerTypeCaster(new StringRawIntCaster());
         String strVal = "23";
@@ -199,7 +197,6 @@ public class TypeManagerTest {
     public List<Integer> serList;
     @Test
     public void strListSerialize() throws Exception {
-        TypeManager typeManager = TypeManager.getInstance();
         typeManager.registerTypeCaster(new StringListCaster());
         typeManager.registerTypeCaster(new StringIntCaster());
         serList = new ArrayList<>();
@@ -214,7 +211,6 @@ public class TypeManagerTest {
     public List<List<Integer>> serListInList;
     @Test
     public void strListInListSerialize() throws Exception {
-        TypeManager typeManager = TypeManager.getInstance();
         typeManager.registerTypeCaster(new StringListCaster());
         typeManager.registerTypeCaster(new StringIntCaster());
         serListInList = new ArrayList<>();

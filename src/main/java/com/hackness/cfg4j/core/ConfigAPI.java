@@ -11,9 +11,15 @@ import java.util.List;
 /**
  * Created by Hack
  * Date: 10-Nov-19 20:40
+ *
+ * TODO: consistence check. Manual no-update flags for classes to not call config updates while extensive processes.
+ * mgr.noUpdate(this, true);
+ * doSomething()
+ * mgr.noUpdate(this, false);
+ * Config update will be placed in queue and should be called when noUpdate flag is false
  */
-public class ConfigManager {
-    @Getter(lazy = true) private static final ConfigManager instance = new ConfigManager();
+public class ConfigAPI {
+    @Getter(lazy = true) private static final ConfigAPI instance = new ConfigAPI();
     private List<IFileHandler> fileHandlers = new ArrayList<>();
     private String configRoot = "";
 
@@ -23,6 +29,10 @@ public class ConfigManager {
 
     public void registerFileHandler(IFileHandler handler) {
         fileHandlers.add(handler);
+    }
+
+    public void init() {
+        fileHandlers.forEach(IFileHandler::init);
     }
 
     public void loadFile(File file, Object owner) {

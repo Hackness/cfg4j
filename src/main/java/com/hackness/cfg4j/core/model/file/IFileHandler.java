@@ -1,5 +1,6 @@
 package com.hackness.cfg4j.core.model.file;
 
+import com.hackness.cfg4j.core.cast.TypeManager;
 import com.hackness.cfg4j.core.parse.IParser;
 
 import java.io.File;
@@ -19,4 +20,8 @@ public interface IFileHandler {
     void deserialize(File file, Object owner);
 
     IParser getParser();
+
+    TypeManager getTypeManager();
+
+    void init();
 }
