@@ -24,12 +24,12 @@ public class TypeManagerTest {
         }
 
         @Override
-        public String serialize(Integer obj, Type type) {
+        public String serialize(Integer obj, Type type, Field field) {
             return Integer.toString(obj);
         }
 
         @Override
-        public Integer deserialize(String element, Type type) {
+        public Integer deserialize(String element, Type type, Field field) {
             return Integer.parseInt(element);
         }
 
@@ -63,12 +63,12 @@ public class TypeManagerTest {
         }
 
         @Override
-        public String serialize(List obj, Type type) {
+        public String serialize(List obj, Type type, Field field) {
             StringBuilder sb = new StringBuilder();
             sb.append("[");
             Type castType = Util.getGenericTypes(type)[0];
             obj.forEach(el -> {
-                sb.append(typeManager.serialize(el, castType, getElementType())).append(";");
+                sb.append(typeManager.serialize(el, castType, getElementType(), field)).append(";");
             });
             if (obj.size() > 0)
                 sb.setLength(sb.length() - 1); // cut last delim
@@ -77,7 +77,7 @@ public class TypeManagerTest {
         }
 
         @Override
-        public List deserialize(String element, Type type) throws Exception {
+        public List deserialize(String element, Type type, Field field) throws Exception {
             Type castType = Util.getGenericTypes(type)[0];
             Class rawType = (Class) Util.getRawType(type);
             List<String> splitData = splitData(element);
@@ -93,7 +93,7 @@ public class TypeManagerTest {
             else
                 out = emptyObjectInstance();
             for (String data : splitData) {
-                Object castedValue = typeManager.deserialize(data, castType);
+                Object castedValue = typeManager.deserialize(data, castType, field);
                 out.add(castedValue);
             }
             return out;
@@ -150,7 +150,7 @@ public class TypeManagerTest {
         typeManager.registerTypeCaster(new StringIntCaster());
         String intList = "[23;14;22;15]";
         list = (List<Integer>) typeManager
-                .deserialize(intList, getClass().getField("list").getGenericType(), "list");
+                .deserialize(intList, getClass().getField("list").getGenericType(), "list", null);
         Assert.assertEquals((int) list.get(3), 15);
     }
 
@@ -162,7 +162,7 @@ public class TypeManagerTest {
         typeManager.registerTypeCaster(new StringIntCaster());
         String intList = "[[1;2;3];[4;5;6];[7;8;9]]";
         listInList = (List<List<Integer>>) typeManager
-                .deserialize(intList, getClass().getField("listInList").getGenericType(), "list");
+                .deserialize(intList, getClass().getField("listInList").getGenericType(), "list", null);
         Assert.assertEquals((int) listInList.get(2).get(0), 7);
     }
 
@@ -172,7 +172,7 @@ public class TypeManagerTest {
         typeManager.registerTypeCaster(new StringIntCaster());
         String intList = "[23;14;22;15]";
         Field listField = getClass().getField("list");
-        Object val = typeManager.deserialize(intList, listField.getGenericType(), "list");
+        Object val = typeManager.deserialize(intList, listField.getGenericType(), "list", null);
         listField.set(this, val);
         Assert.assertEquals((int) list.get(2), 22);
     }
@@ -186,8 +186,8 @@ public class TypeManagerTest {
         String strVal = "23";
         Field objField = getClass().getField("objInt");
         Field rawField = getClass().getField("rawInt");
-        Object objVal = typeManager.deserialize(strVal, objField.getGenericType());
-        Object rawVal = typeManager.deserialize(strVal, rawField.getGenericType());
+        Object objVal = typeManager.deserialize(strVal, objField.getGenericType(), null);
+        Object rawVal = typeManager.deserialize(strVal, rawField.getGenericType(), null);
         objField.set(this, objVal);
         rawField.set(this, rawVal);
         Assert.assertTrue(objInt == 23);
@@ -204,7 +204,7 @@ public class TypeManagerTest {
         serList.add(2);
         serList.add(3);
         String serialized = typeManager
-                .serialize(serList, getClass().getField("serList").getGenericType(), String.class);
+                .serialize(serList, getClass().getField("serList").getGenericType(), String.class, null);
         Assert.assertEquals(serialized, "[1;2;3]");
     }
 
@@ -222,7 +222,7 @@ public class TypeManagerTest {
             serListInList.add(list);
         }
         String serialized = typeManager
-                .serialize(serListInList, getClass().getField("serListInList").getGenericType(), String.class);
+                .serialize(serListInList, getClass().getField("serListInList").getGenericType(), String.class, null);
         Assert.assertEquals(serialized, "[[0;1;2];[3;4;5];[6;7;8]]");
     }
 }

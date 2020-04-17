@@ -1,5 +1,6 @@
 package com.hackness.cfg4j.core.cast;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 
 /**
@@ -20,7 +21,7 @@ public interface ITypeCaster<E, O> {
     /**
      * CURRENTLY NOT IMPLEMENTED
      */
-    E serialize(O obj, Type type);
+    E serialize(O obj, Type type, Field field);
 
     /**
      *
@@ -33,7 +34,7 @@ public interface ITypeCaster<E, O> {
      * @return - new instance of the type with converted data from the serialized form. If no default constructor for
      *         an object will be found the emptyInstance() method will be used to create the instance.
      */
-    O deserialize(E element, Type type) throws Exception;
+    O deserialize(E element, Type type, Field field) throws Exception;
 
     /**
      * @return - class of the serialized object

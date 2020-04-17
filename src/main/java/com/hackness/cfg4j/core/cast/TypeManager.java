@@ -1,8 +1,8 @@
 package com.hackness.cfg4j.core.cast;
 
 import com.hackness.cfg4j.core.Util;
-import lombok.Getter;
 
+import java.lang.reflect.Field;
 import java.lang.reflect.Type;
 import java.util.ArrayList;
 import java.util.List;
@@ -13,7 +13,6 @@ import java.util.function.Predicate;
  * Date: 25-Nov-19 12:58
  */
 public class TypeManager {
-    @Getter(lazy = true) private static final TypeManager instance = new TypeManager();
     private List<ITypeCaster> casters = new ArrayList<>();
 
     public void registerTypeCaster(ITypeCaster caster) {
@@ -36,18 +35,18 @@ public class TypeManager {
                                 + ", Descriptor: " + serializedDescriptor));
     }
 
-    public Object deserialize(Object element, Type castType, String serializedDescriptor) throws Exception {
+    public Object deserialize(Object element, Type castType, String serializedDescriptor, Field field) throws Exception {
         ITypeCaster caster = find(element.getClass(), castType, serializedDescriptor);
-        return caster.deserialize(element, castType);
+        return caster.deserialize(element, castType, field);
     }
 
-    public Object deserialize(Object element, Type castType) throws Exception {
+    public Object deserialize(Object element, Type castType, Field field) throws Exception {
         ITypeCaster caster = find(element.getClass(), castType, null);
-        return caster.deserialize(element, castType);
+        return caster.deserialize(element, castType, field);
     }
 
-    public <E> E serialize(Object obj, Type objType, Class<E> elementClass) {
+    public <E> E serialize(Object obj, Type objType, Class<E> elementClass, Field field) {
         ITypeCaster caster = find(elementClass, objType, null);
-        return (E) caster.serialize(obj, objType);
+        return (E) caster.serialize(obj, objType, field);
     }
 }

@@ -9,8 +9,7 @@ import org.junit.Test;
 public class ProjectTest {
     @Test
     public void xmlStartUpTest() {
-        XmlFileHandler xmlHandler = new XmlFileHandler();
-        ConfigAPI.getInstance().registerFileHandler(xmlHandler);
+        ConfigAPI.getInstance().registerFileHandler(XmlFileHandler.getInstance());
         ConfigAPI.getInstance().init();
     }
 }

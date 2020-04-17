@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<list>
+    <int name="intVal" value="3"/>
+    <bool name="boolVal" value="true"/>
+    <list name="intList">
+        <int value="1"/>
+        <int value="2"/>
+        <int value="3"/>
+    </list>
+    <double name="privateDouble" value="2.147"/>
+    <map name="mapStrDbl">
+        <string value="a">
+            <double value="1.0"/>
+        </string>
+        <string value="b">
+            <double value="2.0"/>
+        </string>
+        <string value="c">
+            <double value="3.0"/>
+        </string>
+    </map>
+    <set name="intSet">
+        <int value="111"/>
+    </set>
+    <int name="rawInt" value="123"/>
+    <map name="mapStringListInt">
+        <string value="a">
+            <list>
+                <int value="1"/>
+                <int value="2"/>
+                <int value="3"/>
+            </list>
+        </string>
+    </map>
+</list>

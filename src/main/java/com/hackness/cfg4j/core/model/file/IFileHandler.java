@@ -17,7 +17,7 @@ public interface IFileHandler {
         return getSupportedExtensions().contains(ext.toLowerCase());
     }
 
-    void deserialize(File file, Object owner);
+    void loadFile(File file, Object owner);
 
     IParser getParser();
 

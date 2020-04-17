@@ -46,7 +46,7 @@ public class ConfigAPI {
                 .filter(h -> h.isExtensionSupported(ext))
                 .findAny()
                 .orElseThrow(() -> new NullPointerException("No appropriate handler found for extension " + ext));
-        handler.deserialize(file, owner);
+        handler.loadFile(file, owner);
     }
 
     public void loadFile(File file, IFileHandler handler, Object owner) {
@@ -54,7 +54,7 @@ public class ConfigAPI {
             throw new NullPointerException("Null config file");
         if (handler == null)
             throw new NullPointerException("Handler is null");
-        handler.deserialize(file, owner);
+        handler.loadFile(file, owner);
     }
 
     public void loadClass(Class configurableClass) {

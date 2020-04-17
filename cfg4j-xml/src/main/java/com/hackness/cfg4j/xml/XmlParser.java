@@ -1,7 +1,6 @@
 package com.hackness.cfg4j.xml;
 
 import com.hackness.cfg4j.core.anno.Cfg;
-import com.hackness.cfg4j.core.cast.TypeManager;
 import com.hackness.cfg4j.core.parse.AbstractParser;
 import lombok.extern.slf4j.Slf4j;
 import org.jdom2.Element;
@@ -48,10 +47,11 @@ public class XmlParser extends AbstractParser<Element> {
                     }
                     Object castedValue;
                     try {
-                        castedValue = TypeManager.getInstance().deserialize(e, field.getGenericType(), e.getName());
+                        castedValue = XmlFileHandler.getInstance().getTypeManager()
+                                .deserialize(e, field.getGenericType(), e.getName(), field);
                     } catch (Exception ex) {
                         log.warn("An error occurred while parsing value '{}', field: {}, owner: {}",
-                                e, field, owner);
+                                e, field, owner, ex);
                         return;
                     }
                     if (!field.isAccessible())
