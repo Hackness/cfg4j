@@ -1,6 +1,6 @@
 package com.hackness.cfg4j.xml;
 
-import com.hackness.cfg4j.core.file.FileCache;
+import com.hackness.cfg4j.core.model.file.FileCache;
 import com.hackness.cfg4j.core.parse.AbstractParser;
 import lombok.extern.slf4j.Slf4j;
 import org.jdom2.Element;

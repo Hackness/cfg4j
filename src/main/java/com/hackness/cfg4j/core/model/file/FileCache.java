@@ -1,4 +1,4 @@
-package com.hackness.cfg4j.core.file;
+package com.hackness.cfg4j.core.model.file;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

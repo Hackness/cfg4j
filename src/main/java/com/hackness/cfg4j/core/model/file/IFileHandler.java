@@ -6,12 +6,13 @@ import com.hackness.cfg4j.core.parse.IParser;
 import java.io.File;
 import java.lang.reflect.Field;
 import java.util.List;
+import java.util.Map;
 
 /**
  * Created by Hack
  * Date: 25-Nov-19 10:18
  */
-public interface IFileHandler {
+public interface IFileHandler<E> {
     List<String> getSupportedExtensions();
 
     default boolean isExtensionSupported(String ext) {
@@ -22,11 +23,17 @@ public interface IFileHandler {
 
     void loadFile(File file);
 
-    IParser getParser();
+    IParser<E> getParser();
 
     TypeManager getTypeManager();
 
     void init();
 
     void loadField(Field field, Object owner, File file);
+
+    Map<File, FileCache<E>> getFileCache();
+
+    Map<File, List<E>> getGenerateStorage();
+
+    Class<E> getElementType();
 }
