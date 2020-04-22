@@ -7,7 +7,7 @@ import java.io.File;
  * Date: 25-Nov-19 12:11
  */
 public interface IParser<T> {
-    void process(File file, Object owner);
+    void process(File file);
 
-    void parse(T root, Object owner);
+    void parse(T root);
 }

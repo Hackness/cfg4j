@@ -49,4 +49,10 @@ public class TypeManager {
         ITypeCaster caster = find(elementClass, objType, null);
         return (E) caster.serialize(obj, objType, field);
     }
+
+    public <E> E serialize(Field field, Object owner, Class<E> elementClass) throws Exception {
+        Object obj = field.get(owner);
+        Type objType = field.getGenericType();
+        return serialize(obj, objType, elementClass, field);
+    }
 }

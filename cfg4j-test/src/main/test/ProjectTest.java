@@ -1,5 +1,3 @@
-import com.hackness.cfg4j.core.ConfigAPI;
-import com.hackness.cfg4j.xml.XmlFileHandler;
 import org.junit.Test;
 
 /**
@@ -9,7 +7,7 @@ import org.junit.Test;
 public class ProjectTest {
     @Test
     public void xmlStartUpTest() {
-        ConfigAPI.getInstance().registerFileHandler(XmlFileHandler.getInstance());
-        ConfigAPI.getInstance().init();
+//        ConfigAPI_old.getInstance().registerFileHandler(XmlFileHandler.getInstance());
+//        ConfigAPI_old.getInstance().init();
     }
 }

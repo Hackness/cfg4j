@@ -1,9 +1,8 @@
 import com.hackness.cfg4j.core.ConfigAPI;
 import com.hackness.cfg4j.xml.XmlFileHandler;
+import model.ConfiguringClass;
 import org.junit.Assert;
 import org.junit.Test;
-
-import java.io.File;
 
 /**
  * Created by Hack
@@ -12,9 +11,11 @@ import java.io.File;
 public class XmlTest {
     @Test
     public void loadFile() {
-        ConfigAPI.getInstance().registerFileHandler(XmlFileHandler.getInstance());
-        ConfigAPI.getInstance().init();
-        XmlFileHandler.getInstance().loadFile(new File("src/test/test.xml"), ConfiguringClass.class);
+        ConfigAPI api = ConfigAPI.getInstance();
+        api.registerFileHandler(XmlFileHandler.getInstance());
+        api.addConfigurablePackage("model");
+        api.addFilePath("src/test/resources/test.xml");
+        api.init();
         Assert.assertEquals(3, (int) ConfiguringClass.intVal);
         Assert.assertTrue(ConfiguringClass.boolVal);
         Assert.assertEquals(ConfiguringClass.intList.get(2), (Integer) 3);

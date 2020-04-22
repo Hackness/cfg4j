@@ -15,13 +15,13 @@ public abstract class AbstractParser<T> implements IParser<T> {
     @Getter private File parsingFile;
 
     @Override
-    public void process(File file, Object owner) {
+    public void process(File file) {
         try {
             if (file.isDirectory()) {
                 Files.walk(file.toPath()).filter(path -> !Files.isDirectory(path)).forEach(path -> {
                     try {
                         parsingFile = path.toFile();
-                        parse(build(parsingFile), owner);
+                        parse(build(parsingFile));
                         logFileLoaded(parsingFile);
                     } catch (Exception e) {
                         logFileErr(parsingFile, e);
@@ -29,13 +29,12 @@ public abstract class AbstractParser<T> implements IParser<T> {
                 });
             } else {
                 parsingFile = file;
-                parse(build(parsingFile), owner);
+                parse(build(parsingFile));
                 logFileLoaded(parsingFile);
             }
         } catch (Exception e) {
             logFileErr(parsingFile, e);
         }
-
     }
 
     protected void logFileLoaded(File file) {

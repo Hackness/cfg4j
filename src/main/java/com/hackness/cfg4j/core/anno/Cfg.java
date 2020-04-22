@@ -21,4 +21,9 @@ public @interface Cfg {
      * @return - if true the config will not be generated, but sill can be read
      */
     boolean optional() default false;
+
+    /**
+     * @return - the file where the field's value is stored. Will override the file given by the owning class
+     */
+    String file() default "";
 }

@@ -31,4 +31,10 @@ public class Util {
         }
         return  ((ParameterizedType) type).getActualTypeArguments();
     }
+
+    public static Class getOwnerType(Object owner) {
+        Class<?> type = owner.getClass();
+        return type == Class.class ? (Class) owner : type;
+    }
+
 }
