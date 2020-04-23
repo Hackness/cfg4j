@@ -33,7 +33,6 @@ import java.util.Set;
  * Config update will be placed in queue and should be called when noUpdate flag is false
  *
  * TODO: @CfgClass support
- * TODO: null default values support
  * TODO: comment line split
  */
 @Slf4j
