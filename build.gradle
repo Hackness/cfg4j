@@ -1,0 +1,27 @@
+System.setProperty("file.encoding", "UTF-8")
+
+subprojects {
+    apply plugin: 'java'
+    repositories {
+        mavenCentral()
+        flatDir {
+            dirs rootProject.file("lib")
+        }
+    }
+
+    tasks.withType(JavaCompile) {
+        options.encoding = 'UTF-8'
+    }
+
+    tasks.withType(Jar) {
+        manifest {
+            attributes(
+                    'Created-By': System.getProperty('java.version') + ' (' + System.getProperty('java.vendor') + ')',
+                    'Built-By': System.getProperty('user.name'),
+                    'Implementation-Time': new Date().format('yyyy-MM-dd_hh:mm'),
+            )
+        }
+    }
+
+    defaultTasks('compile')
+}

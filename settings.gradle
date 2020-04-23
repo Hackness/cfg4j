@@ -1,0 +1,3 @@
+rootProject.name = 'cfg4j'
+include("cfg4j-core")
+include("cfg4j-xml")
