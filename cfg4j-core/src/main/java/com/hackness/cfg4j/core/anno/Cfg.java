@@ -13,13 +13,14 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface Cfg {
     /**
-     * @return - config description that will be placed above the config as a comment
+     * @return - config description that will be placed above as a comment
      */
     String value() default "";
 
     /**
      * @return - if true the config will not be generated, but sill can be read
      */
+    //TODO: implement
     boolean optional() default false;
 
     /**

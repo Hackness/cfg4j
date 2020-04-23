@@ -21,6 +21,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.concurrent.atomic.AtomicBoolean;
 
 /**
  * Created by Hack
@@ -41,6 +42,7 @@ public class ConfigAPI {
     private List<IFileHandler> fileHandlers = new ArrayList<>();
     private Set<File> files = new HashSet<>();
     private Set<String> configurablePackages = new HashSet<>();
+    private AtomicBoolean initialized = new AtomicBoolean(false);
 
     public void registerFileHandler(IFileHandler handler) {
         fileHandlers.add(handler);
@@ -58,12 +60,20 @@ public class ConfigAPI {
         configurablePackages.add(pkg);
     }
 
-    public void load() {
-        fileHandlers.forEach(IFileHandler::init);
+    public synchronized void load() {
+        log.info("Config loading started");
+        long start = System.currentTimeMillis();
+
+        if (initialized.compareAndSet(false, true)) {
+            fileHandlers.forEach(IFileHandler::init);
+        }
         loadFiles();
         loadPackages();
         fileHandlers.forEach(IFileHandler::generateMissing);
         fileHandlers.forEach(IFileHandler::cleanup);
+
+        long finish = System.currentTimeMillis() - start;
+        log.info("Config loading finished. Taken time: {} ms", finish);
     }
 
     public void loadField(Field field, Object owner) {

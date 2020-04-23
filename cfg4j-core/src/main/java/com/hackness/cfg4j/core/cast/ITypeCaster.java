@@ -19,7 +19,10 @@ public interface ITypeCaster<E, O> {
     String serializedDescriptor();
 
     /**
-     * CURRENTLY NOT IMPLEMENTED
+     * @param obj - the field value to be serialized
+     * @param type - the generic type of a field to which the element will be casted.
+     * @param field - the field
+     * @return - serialized value
      */
     E serialize(O obj, Type type, Field field);
 
@@ -27,10 +30,11 @@ public interface ITypeCaster<E, O> {
      *
      * @param element - element instance that store a value in a serialized form
      * @param type - the generic type of a field to which the element will be casted.
-     *             Warning: do not try to give generic types of dynamic instances, it will be unable to obtain
-     *             their actual generic types due to java restrictions. The real generic types can only be found
-     *             from fields this way: field.getGenericType(). Generic data from variables created in a method
-     *             will not give the real used generic types what brings inability to cast their values.
+     *             Warning: do not try to give generic types of dynamic instances (created in a method for example),
+     *             it will be unable to obtain their actual generic types due to java restrictions.
+     *             The real generic types can only be found from fields this way: field.getGenericType().
+     *             Generic data from variables created in a method will not give the real used generic types what
+     *             brings inability to cast their values.
      * @return - new instance of the type with converted data from the serialized form. If no default constructor for
      *         an object will be found the emptyInstance() method will be used to create the instance.
      */

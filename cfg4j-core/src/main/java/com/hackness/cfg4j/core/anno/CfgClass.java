@@ -12,6 +12,7 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 
+//TODO: implement or remove
 public @interface CfgClass {
     /**
      * @return - description of the class, that will appear at the header of a config file
