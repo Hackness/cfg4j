@@ -51,10 +51,19 @@ public class XmlParser extends AbstractParser<Element> {
                 rootOut.addContent(new Comment(cmt));
             rootOut.addContent(genData.getElement());
         });
+        FileWriter fw = null;
         try {
-            xmlOutput.output(rootOut, new FileWriter(file));
+            fw = new FileWriter(file);
+            xmlOutput.output(rootOut, fw);
         } catch (IOException e) {
             log.error("Filed  to write " + file, e);
+        } finally {
+            if (fw != null)
+                try {
+                    fw.close();
+                } catch (IOException e) {
+                    log.error("Filed to close stream " + file, e);
+                }
         }
     }
 }
