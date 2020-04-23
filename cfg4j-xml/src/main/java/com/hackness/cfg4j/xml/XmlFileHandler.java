@@ -2,6 +2,7 @@ package com.hackness.cfg4j.xml;
 
 import com.hackness.cfg4j.core.cast.ITypeCaster;
 import com.hackness.cfg4j.core.cast.TypeManager;
+import com.hackness.cfg4j.core.model.GenData;
 import com.hackness.cfg4j.core.model.file.AbstractFileHandler;
 import com.hackness.cfg4j.core.model.file.FileCache;
 import com.hackness.cfg4j.xml.type.IXmlTypeCaster;
@@ -26,7 +27,7 @@ public class XmlFileHandler extends AbstractFileHandler<Element> {
     @Getter private final XmlParser parser = new XmlParser();
     @Getter private final TypeManager typeManager = new TypeManager();
     @Getter private final Map<File, FileCache<Element>> fileCache = new HashMap<>();
-    @Getter private final Map<File, List<Element>> generateStorage = new HashMap<>();
+    @Getter private final Map<File, List<GenData<Element>>> generateStorage = new HashMap<>();
 
     @Override
     public List<String> getSupportedExtensions() {

@@ -1,6 +1,7 @@
 package com.hackness.cfg4j.core.model.file;
 
 import com.hackness.cfg4j.core.cast.TypeManager;
+import com.hackness.cfg4j.core.model.GenData;
 import com.hackness.cfg4j.core.parse.IParser;
 
 import java.io.File;
@@ -33,7 +34,9 @@ public interface IFileHandler<E> {
 
     Map<File, FileCache<E>> getFileCache();
 
-    Map<File, List<E>> getGenerateStorage();
+    Map<File, List<GenData<E>>> getGenerateStorage();
 
     Class<E> getElementType();
+
+    void generateMissing();
 }

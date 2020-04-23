@@ -59,7 +59,7 @@ public class ConfigAPI {
         fileHandlers.forEach(IFileHandler::init);
         loadFiles(); // load (cache) config files
         loadPackages(); // call for all fields
-        // generate
+        fileHandlers.forEach(IFileHandler::generateMissing); // generate
         // cleanup
     }
 

@@ -1,10 +1,12 @@
 package com.hackness.cfg4j.core.parse;
 
+import com.hackness.cfg4j.core.model.GenData;
 import lombok.Getter;
 import lombok.extern.slf4j.Slf4j;
 
 import java.io.File;
 import java.nio.file.Files;
+import java.util.List;
 
 /**
  * Created by Hack
@@ -46,4 +48,6 @@ public abstract class AbstractParser<T> implements IParser<T> {
     }
 
     protected abstract T build(File file) throws Exception;
+
+    public abstract void generate(File file, T root, List<GenData<T>> add);
 }

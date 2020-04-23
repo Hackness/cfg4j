@@ -15,4 +15,5 @@ import java.util.Map;
 public class FileCache<T> {
     private File file;
     private Map<String, T> elements;
+    private T root;
 }
