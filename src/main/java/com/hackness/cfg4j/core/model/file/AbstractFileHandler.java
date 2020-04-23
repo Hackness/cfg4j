@@ -29,7 +29,7 @@ public abstract class AbstractFileHandler<E> implements IFileHandler<E> {
         if (!field.isAccessible())
             field.setAccessible(true);
         if (element == null) {
-            log.info("Value for field {} wasn't found and will be generated", field);
+            log.info("Value for field [{}] wasn't found and will be generated", field);
             E genElement = null;
             try {
                 genElement = getTypeManager().serialize(field, owner, getElementType());
@@ -71,6 +71,12 @@ public abstract class AbstractFileHandler<E> implements IFileHandler<E> {
                 root = cache.getRoot();
             getParser().generate(file, root, list);
         });
+    }
+
+    @Override
+    public void cleanup() {
+        getFileCache().clear();
+        getGenerateStorage().clear();
     }
 
     protected abstract String typeCastersPackage();

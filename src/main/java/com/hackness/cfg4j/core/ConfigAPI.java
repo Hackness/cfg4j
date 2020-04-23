@@ -31,6 +31,10 @@ import java.util.Set;
  * doSomething()
  * mgr.noUpdate(this, false);
  * Config update will be placed in queue and should be called when noUpdate flag is false
+ *
+ * TODO: @CfgClass support
+ * TODO: null default values support
+ * TODO: comment line split
  */
 @Slf4j
 public class ConfigAPI {
@@ -55,12 +59,12 @@ public class ConfigAPI {
         configurablePackages.add(pkg);
     }
 
-    public void init() {
+    public void load() {
         fileHandlers.forEach(IFileHandler::init);
-        loadFiles(); // load (cache) config files
-        loadPackages(); // call for all fields
-        fileHandlers.forEach(IFileHandler::generateMissing); // generate
-        // cleanup
+        loadFiles();
+        loadPackages();
+        fileHandlers.forEach(IFileHandler::generateMissing);
+        fileHandlers.forEach(IFileHandler::cleanup);
     }
 
     public void loadField(Field field, Object owner) {
@@ -116,6 +120,8 @@ public class ConfigAPI {
     }
 
     private void loadFile(File f) {
+        if (!Files.exists(f.toPath()))
+            return;
         fileHandlers.stream()
                 .filter(h -> h.isExtensionSupported(Util.getFileExtension(f)))
                 .findAny().ifPresent(handler -> handler.loadFile(f));

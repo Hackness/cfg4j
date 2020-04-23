@@ -23,9 +23,10 @@ public class XmlListCaster extends ListCaster<Element> implements IXmlTypeCaster
     public Element serialize(List obj, Type type, Field field) {
         Element eList = namedElement(field);
         Type castType = Util.getGenericTypes(type)[0];
-        obj.forEach(o -> {
-            eList.addContent(typeManager.serialize(o, castType, getElementType(), null));
-        });
+        if (obj != null)
+            obj.forEach(o -> {
+                eList.addContent(typeManager.serialize(o, castType, getElementType(), null));
+            });
         return eList;
     }
 

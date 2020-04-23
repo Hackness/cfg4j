@@ -21,9 +21,10 @@ public class XmlSetCaster extends SetCaster<Element> implements IXmlTypeCaster<S
     public Element serialize(Set obj, Type type, Field field) {
         Element eSet = namedElement(field);
         Type castType = Util.getGenericTypes(type)[0];
-        obj.forEach(o -> {
-            eSet.addContent(typeManager.serialize(o, castType, getElementType(), null));
-        });
+        if (obj != null)
+            obj.forEach(o -> {
+                eSet.addContent(typeManager.serialize(o, castType, getElementType(), null));
+            });
         return eSet;
     }
 

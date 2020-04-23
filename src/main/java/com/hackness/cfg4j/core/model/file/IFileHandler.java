@@ -39,4 +39,6 @@ public interface IFileHandler<E> {
     Class<E> getElementType();
 
     void generateMissing();
+
+    void cleanup();
 }

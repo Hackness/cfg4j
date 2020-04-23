@@ -22,12 +22,13 @@ public class XmlMapCaster extends MapCaster<Element> implements IXmlTypeCaster<M
         Element eMap = namedElement(field);
         Type keyType = Util.getGenericTypes(type)[0];
         Type valueType = Util.getGenericTypes(type)[1];
-        obj.forEach((k, v) -> {
-            Element eKey = typeManager.serialize(k, keyType, getElementType(), null);
-            Element eVal = typeManager.serialize(v, valueType, getElementType(), null);
-            eKey.addContent(eVal); //TODO: make simple types in one element with key + value attributes
-            eMap.addContent(eKey);
-        });
+        if (obj != null)
+            obj.forEach((k, v) -> {
+                Element eKey = typeManager.serialize(k, keyType, getElementType(), null);
+                Element eVal = typeManager.serialize(v, valueType, getElementType(), null);
+                eKey.addContent(eVal); //TODO: make simple types in one element with key + value attributes
+                eMap.addContent(eKey);
+            });
         return eMap;
     }
 

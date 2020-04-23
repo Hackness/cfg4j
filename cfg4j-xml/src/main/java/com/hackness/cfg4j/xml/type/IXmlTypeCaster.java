@@ -25,6 +25,8 @@ public interface IXmlTypeCaster<O> extends ITypeCaster<Element, O> {
     }
 
     default Element simpleElement(Field field, Object value) {
+        if (value == null)
+            value = emptyObjectInstance();
         return namedElement(field).setAttribute("value", Objects.toString(value));
     }
 
