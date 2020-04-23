@@ -9,6 +9,7 @@ import org.reflections.Reflections;
 import org.reflections.scanners.FieldAnnotationsScanner;
 import org.reflections.util.ClasspathHelper;
 import org.reflections.util.ConfigurationBuilder;
+import org.reflections.util.FilterBuilder;
 import org.reflections.util.Utils;
 
 import java.io.File;
@@ -139,10 +140,13 @@ public class ConfigAPI {
     private void loadPackages() {
         ConfigurationBuilder cb = new ConfigurationBuilder();
         List<URL> urls = new ArrayList<>();
+        FilterBuilder filter = new FilterBuilder();
         configurablePackages.forEach(pkg -> {
             urls.addAll(ClasspathHelper.forPackage(pkg));
+            filter.includePackage(pkg);
         });
         cb.setUrls(urls);
+        cb.filterInputsBy(filter);
         cb.setScanners(new FieldAnnotationsScanner());
         Reflections r = new Reflections(cb);
         r.getStore().get(FieldAnnotationsScanner.class, Cfg.class.getName()).forEach(str -> {

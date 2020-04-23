@@ -29,7 +29,6 @@ public class XmlTest {
         Assert.assertEquals(ConfiguringClass.mapStringListInt.get("a").get(2), (Integer) 3);
     }
 
-    //TODO: package-url transform is probably wrong. At least wrong for the test scope
     @Test
     public void generateFile() {
         ConfigAPI api = ConfigAPI.getInstance();
