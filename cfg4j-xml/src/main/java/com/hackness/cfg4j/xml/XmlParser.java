@@ -13,6 +13,8 @@ import org.jdom2.output.XMLOutputter;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
 import java.util.stream.Collectors;
@@ -53,6 +55,7 @@ public class XmlParser extends AbstractParser<Element> {
         });
         FileWriter fw = null;
         try {
+            Files.createDirectories(Paths.get(file.getParent()));
             fw = new FileWriter(file);
             xmlOutput.output(rootOut, fw);
         } catch (IOException e) {
