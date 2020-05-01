@@ -87,11 +87,11 @@ public class ConfigAPI {
             throw new IllegalArgumentException("Field " + field + " has no @Cfg annotation");
         String filePath = cfgAnno.file();
         if (filePath.isEmpty()) {
-            CfgClass clsAnno = owner.getClass().getAnnotation(CfgClass.class);
+            CfgClass clsAnno = (CfgClass) Util.getOwnerType(owner).getAnnotation(CfgClass.class);
             if (clsAnno == null)
                 throw new IllegalArgumentException("Field " + field + " has no specified file and its class has no " +
                         "CfgClass annotation present. File is not set");
-            filePath = clsAnno.filePath();
+            filePath = clsAnno.value();
             if (filePath.isEmpty())
                 throw new IllegalArgumentException("File for field " + field + " was not specified neither in @Cfg " +
                         "of the field nor in @CfgClass of the class");

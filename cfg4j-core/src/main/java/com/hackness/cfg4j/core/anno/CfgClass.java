@@ -12,15 +12,10 @@ import java.lang.annotation.Target;
 @Target(ElementType.TYPE)
 @Retention(RetentionPolicy.RUNTIME)
 
-//TODO: implement or remove
 public @interface CfgClass {
     /**
-     * @return - description of the class, that will appear at the header of a config file
+     * @return - path of the config file that will be used by default in all @Cfg annotations in the class that has
+     * no file specified
      */
-    String value();
-
-    /**
-     * @return - path to the config file, extension included.
-     */
-    String filePath();
+    String value() default "";
 }
