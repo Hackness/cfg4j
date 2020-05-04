@@ -1,4 +1,4 @@
-package model.generation;
+package model.generate;
 
 import com.hackness.cfg4j.core.anno.Cfg;
 
@@ -11,7 +11,7 @@ import java.util.Map;
  * Date: 23-Apr-20 07:50
  */
 public class GenerationClass {
-    private static final String CFG_FILE = "src/test/resources/generation.xml";
+    private static final String CFG_FILE = "src/test/resources/generate/generation.xml";
     @Cfg(file = CFG_FILE, value = "Integer value description comment")
     public static Integer intVal;
     @Cfg(file = CFG_FILE, value = "Boolean value description comment")

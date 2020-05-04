@@ -30,7 +30,14 @@ public interface IXmlTypeCaster<O> extends ITypeCaster<Element, O> {
         return namedElement(field).setAttribute("value", Objects.toString(value));
     }
 
+    default Element simpleElement(String descriptor, String name, String val) {
+        return new Element(descriptor)
+                .setAttribute("name", name)
+                .setAttribute("value", val);
+    }
+
     default <C> C simpleCast(Function<String, C> func, Element element) {
         return func.apply(XmlUtil.getNonNullAttribute(element, "value"));
     }
+
 }
