@@ -30,10 +30,10 @@ public interface IXmlTypeCaster<O> extends ITypeCaster<Element, O> {
         return namedElement(field).setAttribute("value", Objects.toString(value));
     }
 
-    default Element simpleElement(String descriptor, String name, String val) {
+    default Element simpleElement(String descriptor, String name, Object val) {
         return new Element(descriptor)
                 .setAttribute("name", name)
-                .setAttribute("value", val);
+                .setAttribute("value", Objects.toString(val));
     }
 
     default <C> C simpleCast(Function<String, C> func, Element element) {

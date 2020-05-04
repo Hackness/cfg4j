@@ -45,6 +45,7 @@ public class XmlParser extends AbstractParser<Element> {
         XmlFileHandler.getInstance().getFileCache().put(getParsingFile(), fileCache);
     }
 
+    @Override
     public void generate(File file, Element root, List<GenData<Element>> add) {
         Element rootOut = root == null ? new Element("config") : root;
         add.forEach(genData -> {

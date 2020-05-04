@@ -1,6 +1,7 @@
 import com.hackness.cfg4j.core.ConfigAPI;
 import com.hackness.cfg4j.xml.XmlFileHandler;
 import lombok.extern.slf4j.Slf4j;
+import model.object.CfgObjectUser;
 import model.read.ConfiguringClass;
 import model.generate.GenerationClass;
 import org.junit.Assert;
@@ -55,5 +56,20 @@ public class XmlTest {
         Assert.assertEquals(GenerationClass.intVal, (Integer) 0);
         new File("src/test/resources/generate/generation.xml").delete();
         log.info("generateFile test end");
+    }
+
+    @Test
+    public void generateInstanceFile() {
+        log.info("generateObjectFile test start");
+        api.addConfigurablePackage("model.object");
+        api.addFilePath("src/test/resources/object");
+        api.load();
+        CfgObjectUser.getCfgObject().setIntField(10);
+        CfgObjectUser.getCfgObject().setStrField("20");
+        api.load();
+        Assert.assertEquals(CfgObjectUser.getCfgObject().getIntField(), 3);
+        Assert.assertEquals(CfgObjectUser.getCfgObject().getStrField(), "123");
+        new File("src/test/resources/object/obj.xml").delete();
+        log.info("generateObjectFile test end");
     }
 }

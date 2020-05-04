@@ -27,4 +27,10 @@ public @interface Cfg {
      * @return - the file where the field's value is stored. Will override the file given by the owning class
      */
     String file() default "";
+
+    /**
+     * @return - if the field should be loaded as a configurable owner. Means the field must contain a not null class
+     * instance with configurable non static fields that will be processed.
+     */
+    boolean instanceLoad() default false;
 }
