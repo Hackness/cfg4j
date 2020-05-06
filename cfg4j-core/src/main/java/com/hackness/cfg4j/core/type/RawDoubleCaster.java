@@ -14,7 +14,7 @@ public abstract class RawDoubleCaster<E> implements ITypeCaster<E, Double> {
 
     @Override
     public Class<Double> getObjectType() {
-        return Double.class;
+        return double.class;
     }
 
     @Override
